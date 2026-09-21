@@ -810,8 +810,7 @@
       ],
       "zay-southern-base": [
         ["Las Vegas", "Phoenix", 0.18], ["Phoenix", "Tucson", 0.08],
-        ["Tucson", "Dallas", -0.72], ["San Diego", "Phoenix", -0.12],
-        ["Colorado Springs", "Dallas", -0.38]
+        ["Tucson", "Dallas", -0.72], ["San Diego", "Phoenix", -0.12]
       ],
       "zay-central-base": [
         ["Omaha", "Minneapolis", 0.16], ["Omaha", "Chicago", 0.18],
@@ -827,15 +826,58 @@
         ["Chicago", "St. Louis", 0.10], ["St. Louis", "Memphis", -0.10],
         ["Memphis", "New Orleans", -0.12], ["Memphis", "Nashville", 0.12],
         ["Indianapolis", "Louisville", 0.05], ["Cincinnati", "Indianapolis", 0.06],
-        ["Louisville", "Cincinnati", 0.04], ["Toledo", "Columbus", 0.04],
-        ["Columbus", "Cincinnati", 0.04]
+        ["Louisville", "Cincinnati", 0.04], ["Columbus", "Cincinnati", 0.04]
       ],
       "zay-southeast-base": [
         ["Dallas", "Atlanta", -0.32], ["Ashburn", "Washington", 0.02],
         ["Washington", "New Jersey", 0.10], ["Washington", "New York", -0.08],
         ["Newark", "Boston", -0.16], ["Newark", "New York", 0]
+      ],
+      "zay-colorado-dallas-2023": [
+        ["Colorado Springs", "Dallas", -0.38]
+      ],
+      "zay-cle-col-completed": [
+        ["Cleveland", "Columbus", 0.04]
       ]
     };
+
+    const zayoStatusRoutes = [
+      {
+        id: "zay-colorado-dallas-2023",
+        provider: "Zayo",
+        name: "Colorado to Dallas construction segment",
+        stops: ["Colorado Springs", "Dallas"],
+        category: "construction",
+        status: "Shown under construction in November 2023; current status not confirmed",
+        service: "Long-haul dark fiber",
+        program: "November 2023 network build",
+        evidence: "Carrier-published under-construction line, visually traced",
+        mapAccuracy: "Source-map topology trace",
+        sourceAsOf: "November 2023",
+        sourceIds: ["ZAY-2023-MAP"],
+        inference: "Zayo's November 2023 product map shows an under-construction line extending from the Colorado Front Range toward Dallas. The displayed endpoints and arc are a schematic interpretation of that carrier graphic, not a published route name or engineering alignment.",
+        readThrough: "The source confirms construction status as of November 2023 only. A later public source was not identified that confirms completion of this specific depicted segment."
+      },
+      {
+        id: "zay-cle-col-completed",
+        provider: "Zayo",
+        name: "Cleveland to Columbus completed route",
+        stops: ["Cleveland", "Columbus"],
+        category: "completed",
+        status: "Completed by January 2025",
+        service: "Long-haul dark fiber",
+        program: "Completed long-haul route",
+        evidence: "Under construction on November 2023 carrier map; later confirmed completed",
+        mapAccuracy: "Schematic endpoint pair",
+        sourceAsOf: "January 21, 2025",
+        sourceIds: ["ZAY-2023-MAP", "ZAY-2025-PLAN"],
+        inference: "The November 2023 carrier map depicts this segment as under construction. Zayo's January 2025 release lists Cleveland-Columbus among routes completed during the preceding five years. The line connects metro centroids and does not reproduce the physical alignment.",
+        readThrough: "This completed base route is separate from the Cleveland-Columbus overbuild that Zayo reported in progress in April 2026. Do not count the two records as separate market-pair route mileage without project-level data."
+      }
+    ];
+    zayoStatusRoutes.forEach(route => {
+      if (!routeData.routes.some(existing => existing.id === route.id)) routeData.routes.push(route);
+    });
 
     function tracedArc([from, to, bend = 0]) {
       const start = routeData.cities[from];
